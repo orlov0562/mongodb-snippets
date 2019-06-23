@@ -1,0 +1,114 @@
+https://docs.mongodb.com/manual/introduction/
+
+show dbs
+use example
+show collection
+db.car.find().pretty()
+
+-------------------------------
+
+example = database
+car = collection
+
+-------------------------------
+
+Available datatypes:
+- string
+    {name:"John"}
+- number
+    {likes: 5}
+- date
+    {timestamp:ISODate("..")}
+- array
+    {tags: ['tag-1', 'tag-2']}
+    {tags: Array('tag-1', 'tag-2')}
+- boolean
+    {published: true}
+- objectId
+    {_creator: "41239878"}
+
+Other types:
+- Buffer: video, images, audio
+- Mixed: combines different type
+
+-------------------------------
+
+sb.createCollection('cars')
+
+
+db.car.insert({
+    name:'honda',
+    make:'accord',
+    year:'2010'
+})
+
+
+db.car.update({name:'honda'},{
+    $set: {
+        name:'ford'
+    }
+})
+
+
+db.car.update({name:'ford'},{
+    $set: {
+        transmission:'automatic'
+    }
+}, {$upsert:true})
+
+
+db.car.remove({name:'ford'})
+
+
+for (var i =0; i < 10; i++) {db.things.insert({x:i})}
+
+-----------------------------------
+
+db.student.insert({
+    name: 'Joe',
+    undergrad: true,
+    units: 9,
+    classes: ['geography', 'math', 'journalism']
+})
+
+db.student.insert({
+    name: 'Jane',
+    undergrad: false,
+    units: 12,
+    classes: ['geography', 'science', 'journalism', 'history']
+})
+
+db.student.insert({
+    name: 'Kevin',
+    undergrad: true,
+    units: 3,
+    classes: ['geography']
+})
+
+db.student.insert({
+    name: 'Rachel',
+    undergrad: false,
+    units: 6,
+    classes: ['geography', 'history']
+})
+
+https://docs.mongodb.com/manual/reference/operator/query/
+
+db.student.find({})
+db.student.find({'name': 'Rachel'})
+db.student.find({units: {$gt: 6}})
+db.student.find({units: {$lt: 7}})
+db.student.find({classes: {$in: ['history']}})
+db.student.find({$and: [{classes:{$in: ['history']}}, {classes:{$in: ['geography']}}]})
+
+db.student.find({classes: {$in: ['history']}}).sort({units: -1})    // descending
+db.student.find({}).sort({name: 1})    // ascending
+
+db.student.find({}).sort({name: 1}).limit(2)
+
+db.student.update({name:'Joe'},{
+    $set: {
+        phone:'+380991234567'
+    }
+}, {$upsert:true})
+db.student.find({phone:{$gt:''}})
